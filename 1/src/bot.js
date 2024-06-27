@@ -63,6 +63,10 @@ const handleTransaction = async (txEvent, provider) => {
   return findings;
 };
 
+function provideHandleTransaction() {
+  return handleTransaction;
+}
+
 async function main() {
   scanPolygon({
     rpcUrl: "https://polygon-rpc.com",
@@ -78,6 +82,7 @@ if (require.main === module) {
   main();
 }
 
+
 module.exports = {
-  handleTransaction
+  provideHandleTransaction
 };
