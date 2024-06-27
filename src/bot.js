@@ -3,6 +3,7 @@ const {
   FindingSeverity,
   FindingType,
   scanPolygon,
+  scanEthereum,
 } = require("@fortanetwork/forta-bot");
 
 const CREATE_AGENT_SIGNATURE = "function createAgent(uint256 agentId,address ,string metadata,uint256[] chainIds)";
@@ -65,6 +66,10 @@ const handleTransaction = async (txEvent, provider) => {
 async function main() {
   scanPolygon({
     rpcUrl: "https://polygon-rpc.com",
+    handleTransaction,
+  });
+  scanEthereum({
+    rpcUrl: "https://cloudflare-eth.com",
     handleTransaction,
   });
 }

@@ -1,26 +1,35 @@
-# Large Tether Transfer Bot
+# Nethermind Forta Bot Monitor
 
 ## Description
 
-This bot detects transactions with large Tether transfers
+This bot detects transactions related to the deployment and update of Nethermind Forta bots.
 
 ## Supported Chains
 
+- Polygon
 - Ethereum
-- List any other chains this bot can support e.g. BSC
 
 ## Alerts
 
-Describe each of the type of alerts fired by this bot
+Describe each of the types of alerts fired by this bot:
 
-- FORTA-1
-  - Fired when a transaction contains a Tether transfer over 10,000 USDT
-  - Severity is always set to "low" (mention any conditions where it could be something else)
-  - Type is always set to "info" (mention any conditions where it could be something else)
-  - Mention any other type of metadata fields included with this alert
+- NEWBOTDEPLOYED
+  - Fired when a transaction contains a call to the `createAgent` function, indicating the deployment of a new Forta bot from the Nethermind deployer address.
+  - Severity is always set to "low".
+  - Type is always set to "info".
+  - Metadata fields included with this alert:
+    - `agentID`: The ID of the deployed agent.
+    - `from`: The address that deployed the agent.
+    - `metadata`: Metadata associated with the deployment.
+    - `chainIDs`: The IDs of the chains where the agent is deployed.
 
-## Test Data
+- BOTUPDATED
+  - Fired when a transaction contains a call to the `updateAgent` function, indicating an update to an existing Forta bot by the Nethermind deployer address.
+  - Severity is always set to "low".
+  - Type is always set to "info".
+  - Metadata fields included with this alert:
+    - `agentID`: The ID of the updated agent.
+    - `metadata`: Metadata associated with the update.
+    - `chainIDs`: The IDs of the chains where the agent is updated.
 
-The bot behaviour can be verified with the following transactions:
 
-- 0x3a0f757030beec55c22cbc545dd8a844cbbb2e6019461769e1bc3f3a95d10826 (15,000 USDT)
