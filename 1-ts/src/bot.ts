@@ -1,9 +1,6 @@
 import { Finding, FindingSeverity, FindingType, HandleTransaction, TransactionEvent, ethers, scanEthereum, scanPolygon } from "@fortanetwork/forta-bot";
 
-const CREATE_AGENT_SIGNATURE = "function createAgent(uint256 agentId,address ,string metadata,uint256[] chainIds)";
-const UPDATE_AGENT_SIGNATURE = "function updateAgent(uint256 agentId,string metadata,uint256[] chainIds)";
-const FORTA_REGISTRY_ADDR = "0x61447385B019187daa48e91c55c02AF1F1f3F863";
-const NETHERMIND_ADDR = "0x88dC3a2284FA62e0027d6D6B1fCfDd2141a143b8";
+import  {CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, FORTA_REGISTRY_ADDR, NETHERMIND_ADDR} from "./constants";
 
 const handleTransaction: HandleTransaction = async (txEvent: TransactionEvent, provider: ethers.Provider) => {
   const findings: Finding[] = [];
@@ -20,7 +17,7 @@ const handleTransaction: HandleTransaction = async (txEvent: TransactionEvent, p
       Finding.fromObject({
         name: `Forta Bot Deployment`,
         description: `New bot has been deployed by Nethermind`,
-        alertId: "NEWBOTDEPLOYED",
+        alertId: "NETHERMIND-1",
         severity: FindingSeverity.Low,
         type: FindingType.Info,   
         metadata: {
@@ -41,7 +38,7 @@ const handleTransaction: HandleTransaction = async (txEvent: TransactionEvent, p
       Finding.fromObject({
         name: `Forta Bot Update`,
         description: `Bot has been updated by Nethermind`,
-        alertId: "BOTUPDATED",
+        alertId: "NETHERMIND-2",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
         metadata: {
@@ -63,10 +60,6 @@ function provideHandleTransaction(): HandleTransaction {
 async function main() {
   scanPolygon({
     rpcUrl: "https://polygon.meowrpc.com",
-    handleTransaction,
-  });
-  scanEthereum({
-    rpcUrl: "https://cloudflare-eth.com",
     handleTransaction,
   });
 }
