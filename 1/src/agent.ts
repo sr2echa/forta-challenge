@@ -21,7 +21,7 @@ export const provideHandleTransaction = (
     createAgentCalls.forEach((call) => {
       findings.push(
         Finding.fromObject({
-          name: `Forta Bot Deployment`,
+          name: `Nethermind Forta Bot Deployment`,
           description: `New bot has been deployed by Nethermind`,
           alertId: "NETHERMIND-1",
           severity: FindingSeverity.Low,
@@ -42,7 +42,7 @@ export const provideHandleTransaction = (
     updateAgentCalls.forEach((call) => {
       findings.push(
         Finding.fromObject({
-          name: `Forta Bot Update`,
+          name: `Nethermind Forta Bot Updated`,
           description: `Bot has been updated by Nethermind`,
           alertId: "NETHERMIND-2",
           severity: FindingSeverity.Low,

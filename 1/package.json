@@ -30,10 +30,9 @@
     "enable": "forta-agent enable",
     "keyfile": "forta-agent keyfile",
     "stake": "forta-agent stake",
-    "test": "jest"
+    "test": "jest --transformIgnorePatterns \"node_modules/(?!@toolz/allow)/\" --env=jsdom"
   },
   "dependencies": {
-    "ethers": "^6.13.1",
     "forta-agent": "^0.1.45",
     "forta-agent-tools": "^3.2.10"
   },

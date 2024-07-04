@@ -3,13 +3,13 @@ import { Interface } from "ethers";
 import { createAddress } from "forta-agent-tools";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
 import { provideHandleTransaction } from "./agent";
-import { CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, DESTROY_AGENT_SIGNATURE } from "./constants";
+import { CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, DESTROY_AGENT_SIGNATURE, NETHERMIND_ADDR, FORTA_REGISTRY_ADDR } from "./constants";
 
 describe("Nethermind bot deployment to Forta Bot Registry", () => {
   let handleTransaction: HandleTransaction;
   let mockTxEvent = new TestTransactionEvent();
-  const mockNethermindDeployerAddress = createAddress("0x02");
-  const mockFortaRegistryAddress = createAddress("0x03");
+  const mockNethermindDeployerAddress = NETHERMIND_ADDR; //createAddress("0x02");
+  const mockFortaRegistryAddress = FORTA_REGISTRY_ADDR; //createAddress("0x03");
   const AGENT_ABI = new Interface([CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE]);
   const FALSE_ABI = new Interface([DESTROY_AGENT_SIGNATURE]);
 
@@ -61,7 +61,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
     expect(findings).toStrictEqual([
       expect.objectContaining({
         name: "Nethermind Forta Bot Deployment",
-        description: `New bot has been deployed from ${mockNethermindDeployerAddress}`,
+        description: `New bot has been deployed by Nethermind`,
         alertId: "NETHERMIND-1",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -91,7 +91,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
     expect(findings).toStrictEqual([
       expect.objectContaining({
         name: "Nethermind Forta Bot Updated",
-        description: `Bot has been updated by ${mockNethermindDeployerAddress}`,
+        description: `Bot has been updated by Nethermind`,
         alertId: "NETHERMIND-2",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -126,7 +126,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
     expect(findings).toStrictEqual([
       expect.objectContaining({
         name: "Nethermind Forta Bot Deployment",
-        description: `New bot has been deployed from ${mockNethermindDeployerAddress}`,
+        description: `New bot has been deployed by Nethermind`,
         alertId: "NETHERMIND-1",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -139,7 +139,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
       }),
       expect.objectContaining({
         name: "Nethermind Forta Bot Deployment",
-        description: `New bot has been deployed from ${mockNethermindDeployerAddress}`,
+        description: `New bot has been deployed by Nethermind`,
         alertId: "NETHERMIND-1",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -175,7 +175,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
     expect(findings).toStrictEqual([
       expect.objectContaining({
         name: "Nethermind Forta Bot Updated",
-        description: `Bot has been updated by ${mockNethermindDeployerAddress}`,
+        description: `Bot has been updated by Nethermind`,
         alertId: "NETHERMIND-2",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -187,7 +187,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
       }),
       expect.objectContaining({
         name: "Nethermind Forta Bot Updated",
-        description: `Bot has been updated by ${mockNethermindDeployerAddress}`,
+        description: `Bot has been updated by Nethermind`,
         alertId: "NETHERMIND-2",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -284,7 +284,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
     expect(findings).toStrictEqual([
       expect.objectContaining({
         name: "Nethermind Forta Bot Deployment",
-        description: `New bot has been deployed from ${mockNethermindDeployerAddress}`,
+        description: `New bot has been deployed by Nethermind`,
         alertId: "NETHERMIND-1",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
@@ -297,7 +297,7 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
       }),
       expect.objectContaining({
         name: "Nethermind Forta Bot Updated",
-        description: `Bot has been updated by ${mockNethermindDeployerAddress}`,
+        description: `Bot has been updated by Nethermind`,
         alertId: "NETHERMIND-2",
         severity: FindingSeverity.Low,
         type: FindingType.Info,
