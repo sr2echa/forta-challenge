@@ -10,47 +10,27 @@ export const provideHandleTransaction = (
   return async (txEvent: TransactionEvent) => {
     const findings: Finding[] = [];
 
-    // return empty findings if txn event != Nethermind
     if (txEvent.from !== nethermindAddr.toLowerCase()) {
       return findings;
     }
 
-  // createAgent function calls
-    const createAgentCalls = txEvent.filterFunction(CREATE_AGENT_SIGNATURE, FORTA_REGISTRY_ADDR);
+    const agentCalls = txEvent.filterFunction([createAgentSig, updateAgentSig], fortaRegAddr);
 
-    createAgentCalls.forEach((call) => {
+    agentCalls.forEach((call) => {
+      const isCreateAgentCall = call.signature === createAgentSig;
+
       findings.push(
         Finding.fromObject({
-          name: `Nethermind Forta Bot Deployment`,
-          description: `New bot has been deployed by Nethermind`,
-          alertId: "NETHERMIND-1",
-          severity: FindingSeverity.Low,
-          type: FindingType.Info,   
-          metadata: {
-            agentID: call.args[0].toString(),
-            from: call.args[1],
-            metadata: call.args[2],
-            chainIDs: call.args[3].join(", "),
-          },
-        })
-      );
-    });
-
-    // updateAgent function calls
-    const updateAgentCalls = txEvent.filterFunction(UPDATE_AGENT_SIGNATURE, FORTA_REGISTRY_ADDR);
-
-    updateAgentCalls.forEach((call) => {
-      findings.push(
-        Finding.fromObject({
-          name: `Nethermind Forta Bot Updated`,
-          description: `Bot has been updated by Nethermind`,
-          alertId: "NETHERMIND-2",
+          name: `Nethermind Forta Bot ${isCreateAgentCall ? "Deployment" : "Update"}`,
+          description: `Bot has been ${isCreateAgentCall ? "deployed" : "updated"} by Nethermind`,
+          alertId: isCreateAgentCall ? "NETHERMIND-1" : "NETHERMIND-2",
           severity: FindingSeverity.Low,
           type: FindingType.Info,
           metadata: {
             agentID: call.args[0].toString(),
-            metadata: call.args[1],
-            chainIDs: call.args[2].join(", "),
+            metadata: isCreateAgentCall ? call.args[2] : call.args[1],
+            chainIDs: (isCreateAgentCall ? call.args[3] : call.args[2]).join(", "),
+            ...(isCreateAgentCall && { from: call.args[1] }),
           },
         })
       );
@@ -58,7 +38,7 @@ export const provideHandleTransaction = (
 
     return findings;
   };
-}
+};
 
 export default {
   handleTransaction: provideHandleTransaction(
