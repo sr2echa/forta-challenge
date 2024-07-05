@@ -8,8 +8,8 @@ import { CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, DESTROY_AGENT_SIGNATURE
 describe("Nethermind bot deployment to Forta Bot Registry", () => {
   let handleTransaction: HandleTransaction;
   let mockTxEvent = new TestTransactionEvent();
-  const mockNethermindDeployerAddress = NETHERMIND_ADDR; //createAddress("0x02");
-  const mockFortaRegistryAddress = FORTA_REGISTRY_ADDR; //createAddress("0x03");
+  const mockNethermindDeployerAddress = createAddress("0x02");
+  const mockFortaRegistryAddress = createAddress("0x03");
   const AGENT_ABI = new Interface([CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE]);
   const FALSE_ABI = new Interface([DESTROY_AGENT_SIGNATURE]);
 
@@ -201,20 +201,20 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
   });
 
   it("returns empty findings if there are deployment or update calls from Nethermind to a different address", async () => {
-    const testRegistryAddress = createAddress("0x05");
+    const incorrectRegistryAddress  = createAddress("0x05");
     mockTxEvent
       .setFrom(mockNethermindDeployerAddress)
-      .setTo(testRegistryAddress)
+      .setTo(incorrectRegistryAddress )
       .addTraces({
         function: AGENT_ABI.getFunction("createAgent") as any,
         from: mockNethermindDeployerAddress,
-        to: testRegistryAddress,
+        to: incorrectRegistryAddress ,
         arguments: mockDeploymentTxOne,
       })
       .addTraces({
         function: AGENT_ABI.getFunction("updateAgent") as any,
         from: mockNethermindDeployerAddress,
-        to: testRegistryAddress,
+        to: incorrectRegistryAddress ,
         arguments: [mockDeploymentTxTwo[0], mockDeploymentTxTwo[2], mockDeploymentTxTwo[3]],
       });
 
@@ -240,13 +240,13 @@ describe("Nethermind bot deployment to Forta Bot Registry", () => {
   });
 
   it("returns empty findings if there is a bot deployed from a different address", async () => {
-    const testAddress = createAddress("0x01");
+    const incorrectDeployerAddress = createAddress("0x01");
     mockTxEvent
-      .setFrom(testAddress)
+      .setFrom(incorrectDeployerAddress)
       .setTo(mockFortaRegistryAddress)
       .addTraces({
         function: AGENT_ABI.getFunction("createAgent") as any,
-        from: testAddress,
+        from: incorrectDeployerAddress,
         to: mockFortaRegistryAddress,
         arguments: mockDeploymentTxOne,
       });
