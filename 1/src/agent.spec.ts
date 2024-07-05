@@ -3,7 +3,7 @@ import { Interface } from "ethers";
 import { createAddress } from "forta-agent-tools";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
 import { provideHandleTransaction } from "./agent";
-import { CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, DESTROY_AGENT_SIGNATURE, NETHERMIND_ADDR, FORTA_REGISTRY_ADDR } from "./constants";
+import { CREATE_AGENT_SIGNATURE, UPDATE_AGENT_SIGNATURE, DESTROY_AGENT_SIGNATURE } from "./constants";
 
 describe("Nethermind bot deployment to Forta Bot Registry", () => {
   let handleTransaction: HandleTransaction;
